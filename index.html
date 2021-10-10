@@ -23,8 +23,8 @@
         <meta name="robots" content="index">
 
         <meta http-equiv="expires" content="43200">
-        <meta name="theme-color" content="#e67e22">
-        <meta name="apple-mobile-web-app-status-bar-style" content="#e67e22">
+        <meta name="theme-color" content="#2ecc71">
+        <meta name="apple-mobile-web-app-status-bar-style" content="#2ecc71">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
         <meta name="mobile-web-app-capable" content="yes">
         <link rel="manifest" href="manifest.json">
@@ -41,24 +41,17 @@
       </div>
 
       <div id="content">
-        <div id="feed">
-          <div class="news-object">
-            <h1>Example</h1>
-            <img src="example-image.jpg"></img>
-            <div class="news-description">
-              <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor.</p>
-              <button><i class="ai-heart"></i></button>
-            </div>
+        <div id="home">
+          <div id="feed">
           </div>
-
-          <div class="news-object">
-            <h1>Example</h1>
-            <img src="example-image.jpg"></img>
-            <div class="news-description">
-              <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor.</p>
-              <button><i class="ai-heart"></i></button>
-            </div>
-          </div>
+        </div>
+        <div id="read-later">
+          <h3>Read Later</h3>
+          <p>This feature is currently not available. Its coming soon with a new update. Stay tuned!</p>
+          <i class="ai-face-very-sad" style="font-size: 64px;"></i>
+        </div>
+        <div id="settings">
+          <h3>Settings</h3>
         </div>
       </div>
 
@@ -66,17 +59,21 @@
 
       <div id="footer">
         <p>Designed with <i class="ai-heart"></i> for your mobile devices.</p>
-        <p>Version 0.0.1</p>
+        <p>Version 0.0.2</p>
       </div>
 
       <div id="navigation">
-        <div class="navigation-object">
+        <div class="navigation-object" onclick="showSection('home')">
           <i class="ai-home"></i>
           <p>Home</p>
         </div>
-        <div class="navigation-object">
+        <div class="navigation-object" onclick="showSection('read-later')">
           <i class="ai-heart"></i>
           <p>Read later</p>
+        </div>
+        <div class="navigation-object" onclick="showSection('settings')" style="display:none;">
+          <i class="ai-gear"></i>
+          <p>Settings</p>
         </div>
       </div>
 
@@ -88,9 +85,75 @@
             document.body.style.setProperty('--background', '#181818');
             document.body.style.setProperty('--theme', '#2ecc71');
             document.body.style.setProperty('--theme2', '#27ae60');
+            document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]').setAttribute("content", "#181818");
         }
-        // $("#loading-screen").fadeOut(750);
+        //document.getElementById("home").style.display = "block";
+        //loadFeed();
+        newFeedItem("michivonah.ch", "https://michivonah.ch/images/img2.jpeg", "Hi, my name is Michi von Ah and I'm 16 years old. Click on the picture to read more.", "https://michivonah.ch");
+        newFeedItem("Michi's Escape Room", "https://michivonah.ch/icons/escaperoom-flyer.png", "As a final project for school, I programmed an Escape Room game. ", "https://escape.michivonah.ch");
       });
+
+      function loadFeed(){
+        //
+      }
+
+      function newFeedItem(title, image, desc, url){
+        var feed = document.getElementById("feed");
+
+        if(sessionStorage.getItem('feedCounter') == null){
+          sessionStorage.setItem('feedCounter', 0)
+        }
+        var feedCounter = sessionStorage.getItem('feedCounter');
+        feedCounter++;
+
+        var newEntry = document.createElement('div');
+        newEntry.id = "feedID" + feedCounter;
+        newEntry.classList = "news-object";
+
+        var newTitle = document.createElement('h1');
+        newTitle.textContent = title;
+
+        var newDesc = document.createElement('p');
+        newDesc.textContent = desc;
+
+        var newDescDiv = document.createElement('div');
+        newDescDiv.classList = "news-description";
+
+        var newImage = document.createElement('img');
+        newImage.src = image;
+
+        var newBtn = document.createElement('button');
+        newBtn.id = "feedButtonID" + feedCounter;
+        var newI = document.createElement('i');
+        newI.classList = "ai-heart";
+        newBtn.appendChild(newI);
+        newBtn.addEventListener("click", function(){
+          readLater();
+        });
+
+        newEntry.addEventListener("click", function(){
+          window.open(url);
+        });
+
+        newEntry.appendChild(newTitle);
+        newEntry.appendChild(newImage);
+        newDescDiv.appendChild(newDesc);
+        newDescDiv.appendChild(newBtn);
+        newEntry.appendChild(newDescDiv);
+        feed.appendChild(newEntry);
+      }
+
+      function readLater(){
+        console.log("The read later function is coming soon.");
+      }
+
+      function showSection(sectionName){
+        var section = document.getElementById(sectionName);
+        document.getElementById("home").style.display = "none";
+        document.getElementById("read-later").style.display = "none";
+        document.getElementById("settings").style.display = "none";
+        section.style.display = "block";
+      }
       </script>
 </body>
 </html>
