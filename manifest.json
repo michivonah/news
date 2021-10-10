@@ -1,0 +1,32 @@
+{
+  "name": "N3WS",
+  "short_name": "N3WS",
+  "description": "N3WS",
+  "lang": "en-CH",
+  "orientation": "any",
+  "theme_color": "#2ecc71",
+  "background_color": "#27ae60",
+  "start_url": "https://news.michivonah.ch",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "http://news.michivonah.ch/icons/logo-green-128.png",
+      "sizes": "96x96"
+    },
+    {
+      "src": "http://news.michivonah.ch/icons/logo-green-256.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "http://news.michivonah.ch/icons/logo-green-256.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "http://news.michivonah.ch/icons/logo-green-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ]
+}
