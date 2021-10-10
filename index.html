@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <title>N3WS by Michi</title>
+        <meta name="mobile-web-app-title" content="N3WS">
+        <meta name="apple-mobile-web-app-title" content="N3WS">
+        <link rel="icon" type="image/png" href="icons/logo-dark-128.png">
+        <link rel="icon" type="image/svg+xml" href="icons/logo-dark.svg">
+        <link rel="shortcut icon" type="image/png" href="icons/logo-dark-128.png">
+        <link rel="apple-touch-icon" href="icons/logo-dark-256.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="icons/logo-green-256.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="icons/logo-green-256.png">
+        <link rel="apple-touch-icon" sizes="167x167" href="icons/logo-green-256.png">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script src="https://unpkg.com/akar-icons-fonts"></script>
+        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <link rel="stylesheet" type="text/css" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
+        <meta charset="UTF-8">
+        <meta name="description" content="N3WS">
+        <meta name="keywords" content="News">
+        <meta name="author" content="Michi von Ah">
+        <meta name="robots" content="index">
+
+        <meta http-equiv="expires" content="43200">
+        <meta name="theme-color" content="#e67e22">
+        <meta name="apple-mobile-web-app-status-bar-style" content="#e67e22">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0">
+        <meta name="mobile-web-app-capable" content="yes">
+        <link rel="manifest" href="manifest.json">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Bungee&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+
+      <div id="navbar">
+        <h1>N3WS <var id="credit">by Michi</var></h1>
+      </div>
+
+      <div id="content">
+        <div id="feed">
+          <div class="news-object">
+            <h1>Example</h1>
+            <img src="example-image.jpg"></img>
+            <div class="news-description">
+              <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor.</p>
+              <button><i class="ai-heart"></i></button>
+            </div>
+          </div>
+
+          <div class="news-object">
+            <h1>Example</h1>
+            <img src="example-image.jpg"></img>
+            <div class="news-description">
+              <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor.</p>
+              <button><i class="ai-heart"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div id="footer">
+        <p>Designed with <i class="ai-heart"></i> for your mobile devices.</p>
+        <p>Version 0.0.1</p>
+      </div>
+
+      <div id="navigation">
+        <div class="navigation-object">
+          <i class="ai-home"></i>
+          <p>Home</p>
+        </div>
+        <div class="navigation-object">
+          <i class="ai-heart"></i>
+          <p>Read later</p>
+        </div>
+      </div>
+
+      <script>
+      // Loading
+      window.addEventListener('load', () => {
+        if(window.matchMedia('(prefers-color-scheme: dark)').matches || localStorage.getItem('darkmode') == "true"){
+            document.body.style.setProperty('--color', '#f6f6f6');
+            document.body.style.setProperty('--background', '#181818');
+            document.body.style.setProperty('--theme', '#2ecc71');
+            document.body.style.setProperty('--theme2', '#27ae60');
+        }
+        // $("#loading-screen").fadeOut(750);
+      });
+      </script>
+</body>
+</html>
