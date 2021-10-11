@@ -52,6 +52,20 @@
         </div>
         <div id="settings">
           <h3>Settings</h3>
+          <div id="all-feeds">
+            <p>Your Feeds:</p>
+            <div class="all-feed-items">
+              <i class="ai-newspaper"></i>
+              <p>example.com Feed</p>
+              <button><i class="ai-cross"></i></button>
+            </div>
+            <div class="all-feed-items">
+              <i class="ai-newspaper"></i>
+              <p>example.com Feed</p>
+              <button><i class="ai-cross"></i></button>
+            </div>
+            <button id="add-new-feed" onclick="addNewFeed();"><i class="ai-circle-plus-fill"></i> Add new Feed</button>
+          </div>
         </div>
       </div>
 
@@ -59,7 +73,7 @@
 
       <div id="footer">
         <p>Designed with <i class="ai-heart"></i> for your mobile devices.</p>
-        <p>Version 0.0.2</p>
+        <p>Version 0.0.3</p>
       </div>
 
       <div id="navigation">
@@ -67,11 +81,11 @@
           <i class="ai-home"></i>
           <p>Home</p>
         </div>
-        <div class="navigation-object" onclick="showSection('read-later')">
+        <div class="navigation-object" onclick="showSection('read-later')" style="display:none;">
           <i class="ai-heart"></i>
           <p>Read later</p>
         </div>
-        <div class="navigation-object" onclick="showSection('settings')" style="display:none;">
+        <div class="navigation-object" onclick="showSection('settings')" style="display:block;">
           <i class="ai-gear"></i>
           <p>Settings</p>
         </div>
@@ -88,20 +102,51 @@
             document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]').setAttribute("content", "#181818");
         }
         //document.getElementById("home").style.display = "block";
-        //loadFeed();
-        newFeedItem("michivonah.ch", "https://michivonah.ch/images/img2.jpeg", "Hi, my name is Michi von Ah and I'm 16 years old. Click on the picture to read more.", "https://michivonah.ch");
-        newFeedItem("Michi's Escape Room", "https://michivonah.ch/icons/escaperoom-flyer.png", "As a final project for school, I programmed an Escape Room game. ", "https://escape.michivonah.ch");
+        loadFeed("srf");
+        newFeedItem("Tutorials", "", "Click here to learn how to use this app.", "https://michivonah.notion.site/Tutorials-N3WS-by-Michi-b0fbb60a9eab4452a83351b3b3b35639")
+        //newFeedItem("michivonah.ch", "https://michivonah.ch/images/img2.jpeg", "Hi, my name is Michi von Ah and I'm 16 years old. Click on the picture to read more.", "https://michivonah.ch");
+        //newFeedItem("Michi's Escape Room", "https://michivonah.ch/icons/escaperoom-flyer.png", "As a final project for school, I programmed an Escape Room game. ", "https://escape.michivonah.ch");
       });
 
-      function loadFeed(){
-        //
+      function loadFeed(rssType){
+        if(localStorage.getItem('feed1') != null){
+          var feedUrl = localStorage.getItem('feed1');
+        }
+        // thanks to https://github.com/factmaven/xml-to-json for the xml to json api
+        //var rssType = "srf";
+        if(rssType == "srf"){
+          let numberOfNews = 0;
+          let newscount = 0;
+          while (newscount < 3) {
+            newscount++;
+            let numberOfNews = newscount;
+          $.getJSON("https://api.factmaven.com/xml-to-json/?xml=" + feedUrl, function(data) {
+            var imageURLfromFeed = data.rss.channel.item[numberOfNews].description.substring(data.rss.channel.item[numberOfNews].description.indexOf('"') + 1, data.rss.channel.item[numberOfNews].description.lastIndexOf('.jpg')) + ".jpg";
+            newFeedItem(data.rss.channel.item[numberOfNews].title, imageURLfromFeed, data.rss.channel.item[numberOfNews].description.replace(/<.*>/, ''), data.rss.channel.item[numberOfNews].link);
+  				});
+
+          }
+        }
+        else if(rssType == "google-alert"){
+          var numberOfNews = 0;
+          $.getJSON("https://api.factmaven.com/xml-to-json/?xml=" + feedUrl, function(data) {
+            newFeedItem(data.feed.entry[numberOfNews].title.text, "", data.feed.entry[numberOfNews].content.text, data.feed.entry[numberOfNews].link.href);
+  				});
+        }
+        else if(rssType != null){
+          $.getJSON("https://api.factmaven.com/xml-to-json/?xml=" + feedUrl, function(data) {
+            newFeedItem(data.rss.channel.item[numberOfNews].title, "", data.rss.channel.item[numberOfNews].description.replace(/<.*>/, ''), data.rss.channel.item[numberOfNews].link);
+  				});
+        }
+
+
       }
 
       function newFeedItem(title, image, desc, url){
         var feed = document.getElementById("feed");
 
         if(sessionStorage.getItem('feedCounter') == null){
-          sessionStorage.setItem('feedCounter', 0)
+          sessionStorage.setItem('feedCounter', 0);
         }
         var feedCounter = sessionStorage.getItem('feedCounter');
         feedCounter++;
@@ -119,8 +164,10 @@
         var newDescDiv = document.createElement('div');
         newDescDiv.classList = "news-description";
 
-        var newImage = document.createElement('img');
-        newImage.src = image;
+        if(image != null){
+          var newImage = document.createElement('img');
+          newImage.src = image;
+        }
 
         var newBtn = document.createElement('button');
         newBtn.id = "feedButtonID" + feedCounter;
@@ -136,7 +183,9 @@
         });
 
         newEntry.appendChild(newTitle);
-        newEntry.appendChild(newImage);
+        if(image != null){
+          newEntry.appendChild(newImage);
+        }
         newDescDiv.appendChild(newDesc);
         newDescDiv.appendChild(newBtn);
         newEntry.appendChild(newDescDiv);
@@ -145,6 +194,13 @@
 
       function readLater(){
         console.log("The read later function is coming soon.");
+      }
+
+      function addNewFeed(){
+        var feedUrl = prompt("RSS Feed:", "");
+        localStorage.setItem('feed1', feedUrl);
+        alert("Feed successfully saved.");
+        loadFeed("srf");
       }
 
       function showSection(sectionName){
