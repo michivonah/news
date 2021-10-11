@@ -101,6 +101,63 @@
      float: right;
    }
 
+   .all-feed-items{
+     width: calc(100% - 40px);
+     height: auto;
+     margin: 20px;
+     margin-top: 0;
+     margin-bottom: 0;
+     background: var(--theme);
+     color: #f6f6f6;
+     user-select: none;
+     font-size: 16px;
+     display: none;
+   }
+
+   .all-feed-items:first-of-type{
+     border-top-left-radius: 12px;
+     border-top-right-radius: 12px;
+   }
+
+   .all-feed-items:last-of-type{
+     border-bottom-left-radius: 12px;
+     border-bottom-right-radius: 12px;
+   }
+
+   .all-feed-items i{
+     font-size: 22px;
+   }
+
+   .all-feed-items button{
+     width: 36px;
+     height: 100%;
+     margin: 20px;
+     margin-top: 0;
+     margin-bottom: 0;
+     background: #e74c3c;
+     color: #f6f6f6;
+     user-select: none;
+     font-size: 18px;
+     border: none;
+     border-top-right-radius: 12px;
+     border-bottom-right-radius: 12px;
+     outline: none;
+     right: 0;
+   }
+
+   #add-new-feed{
+     width: calc(100% - 40px);
+     height: 40px;
+     margin: 20px;
+     background: var(--theme);
+     color: #f6f6f6;
+     user-select: none;
+     font-size: 16px;
+     border: none;
+     border-radius: 12px;
+     outline: none;
+   }
+
    #navigation{
      width: 100%;
      height: 110px;
