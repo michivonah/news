@@ -42,6 +42,7 @@
 
       <div id="content">
         <div id="home">
+          <p id="greetings">Hi!</p>
           <div id="feed">
           </div>
         </div>
@@ -53,19 +54,52 @@
         <div id="settings">
           <h3>Settings</h3>
           <div id="all-feeds">
-            <p>Your Feeds:</p>
-            <div class="all-feed-items">
-              <i class="ai-newspaper"></i>
-              <p>example.com Feed</p>
-              <button><i class="ai-cross"></i></button>
-            </div>
-            <div class="all-feed-items">
-              <i class="ai-newspaper"></i>
-              <p>example.com Feed</p>
-              <button><i class="ai-cross"></i></button>
-            </div>
-            <button id="add-new-feed" onclick="addNewFeed();"><i class="ai-circle-plus-fill"></i> Add new Feed</button>
+            <p>Your Feeds</p>
           </div>
+          <button id="add-new-feed" onclick="addNewFeed();"><i class="ai-circle-plus-fill"></i> Add new Feed</button>
+          <p>Number of News in your Feed</p>
+          <select id="maxNewsPerSite" name="maxNewsPerSite" onchange="updateNumberOfFeedItems();">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option selected>5</option>
+            <option>6</option>
+            <option>8</option>
+            <option>10</option>
+            <option disabled>Custom</option>
+          </select>
+          <button onclick="loadFeed('srf');"><i class="ai-circle-plus-fill"></i> Reload Feed</button>
+        </div>
+      </div>
+
+      <div id="tutorials">
+        <div id="tutorialScreen1" class="tutorialscreen">
+          <img src="icons/logo-green-transparent-1080.png">
+          <h1 style="margin-bottom: 5px;">N3WS</h1>
+          <p style="margin-top: 0; text-align: center;">by Michi</p>
+          <p>This is a free news app. you can connect it to your own rss feeds and easily get an overview of the articles from your favorite portals.</p>
+          <button onclick="nextWelcomePage('tutorialScreen1', 'tutorialScreen4');">Get Started</button>
+        </div>
+        <div id="tutorialScreen4" class="tutorialscreen">
+          <i class="ai-person bigicon"></i>
+          <h1>Your name!</h1>
+          <p>Type in here how you want to be called and then click continue.</p>
+          <input id="yourNameField" type="text" placeholder="Ben">
+          <button onclick="nextWelcomePage('tutorialScreen4', 'tutorialScreen2');">Continue</button>
+        </div>
+        <div id="tutorialScreen2" class="tutorialscreen">
+          <i class="ai-rss bigicon"></i>
+          <h1>Add your first RSS Feed!</h1>
+          <p>Type in here and then click continue.</p>
+          <input id="firstRssFeed" type="url" placeholder="RSS Feed URL">
+          <button onclick="nextWelcomePage('tutorialScreen2', 'tutorialScreen3');">Continue</button>
+        </div>
+        <div id="tutorialScreen3" class="tutorialscreen">
+          <i class="ai-circle-check bigicon"></i>
+          <h1>Ready!</h1>
+          <p>Everything is now set up, let's go.</p>
+          <button onclick="nextWelcomePage('tutorialScreen3', 'exit');">Finish!</button>
         </div>
       </div>
 
@@ -73,7 +107,7 @@
 
       <div id="footer">
         <p>Designed with <i class="ai-heart"></i> for your mobile devices.</p>
-        <p>Version 0.0.3</p>
+        <p>Version 0.0.4</p>
       </div>
 
       <div id="navigation">
@@ -101,14 +135,66 @@
             document.body.style.setProperty('--theme2', '#27ae60');
             document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]').setAttribute("content", "#181818");
         }
+        if(localStorage.getItem('NumberOfFeedItems') == null){
+          localStorage.setItem('NumberOfFeedItems', 5);
+        }
+        if(localStorage.getItem('tutorials') != null){
+          document.getElementById("tutorials").style.display = 'none';
+        }
+        document.getElementById('maxNewsPerSite').value = localStorage.getItem('NumberOfFeedItems');
         //document.getElementById("home").style.display = "block";
+        greetings();
         loadFeed("srf");
-        newFeedItem("Tutorials", "", "Click here to learn how to use this app.", "https://michivonah.notion.site/Tutorials-N3WS-by-Michi-b0fbb60a9eab4452a83351b3b3b35639")
+        newFeedItem("Tutorials", "", "Click here to learn how to use this app.", "https://michivonah.notion.site/Tutorials-N3WS-by-Michi-b0fbb60a9eab4452a83351b3b3b35639");
         //newFeedItem("michivonah.ch", "https://michivonah.ch/images/img2.jpeg", "Hi, my name is Michi von Ah and I'm 16 years old. Click on the picture to read more.", "https://michivonah.ch");
         //newFeedItem("Michi's Escape Room", "https://michivonah.ch/icons/escaperoom-flyer.png", "As a final project for school, I programmed an Escape Room game. ", "https://escape.michivonah.ch");
       });
 
+      function greetings(){
+        if(localStorage.getItem('name') != null){
+          var name = localStorage.getItem('name');
+        }
+        else{
+          var name = "";
+        }
+        var timeNow = new Date();
+        if(timeNow.getHours() > 5 && timeNow.getHours() < 11){
+          document.getElementById('greetings').innerHTML = "Good morning " + name + "!";
+        }
+        else if(timeNow.getHours() > 11 && timeNow.getHours() < 13){
+          document.getElementById('greetings').innerHTML = "Good meal " + name + "!";
+        }
+        else if(timeNow.getHours() > 13 && timeNow.getHours() < 17){
+          document.getElementById('greetings').innerHTML = "Good afternoon " + name + "!";
+        }
+        else if(timeNow.getHours() > 17 && timeNow.getHours() < 19){
+          document.getElementById('greetings').innerHTML = "Good evening " + name + "!";
+        }
+        else{
+          document.getElementById('greetings').innerHTML = "Good night " + name + "!";
+        }
+      }
+
+      function nextWelcomePage(currentPageName, nextPageName){
+        // exit = end
+        if(nextPageName == "exit"){
+          localStorage.setItem('tutorials', "version0_0_4");
+          // yourNameField
+          localStorage.setItem('name', document.getElementById("yourNameField").value);
+          greetings();
+          addNewFeed("setup");
+          loadFeed("srf");
+          document.getElementById(currentPageName).style.display = "none";
+          document.getElementById("tutorials").style.display = "none";
+        }
+        else{
+          document.getElementById(currentPageName).style.display = "none";
+          document.getElementById(nextPageName).style.display = "block";
+        }
+      }
+
       function loadFeed(rssType){
+        document.getElementById("feed").innerHTML = '';
         if(localStorage.getItem('feed1') != null){
           var feedUrl = localStorage.getItem('feed1');
         }
@@ -117,7 +203,7 @@
         if(rssType == "srf"){
           let numberOfNews = 0;
           let newscount = 0;
-          while (newscount < 3) {
+          while (newscount < localStorage.getItem('NumberOfFeedItems')) {
             newscount++;
             let numberOfNews = newscount;
           $.getJSON("https://api.factmaven.com/xml-to-json/?xml=" + feedUrl, function(data) {
@@ -196,11 +282,41 @@
         console.log("The read later function is coming soon.");
       }
 
-      function addNewFeed(){
-        var feedUrl = prompt("RSS Feed:", "");
-        localStorage.setItem('feed1', feedUrl);
-        alert("Feed successfully saved.");
-        loadFeed("srf");
+      function addNewFeed(mode){
+        if(mode == null){
+          var feedUrl = prompt("RSS Feed:", "");
+          localStorage.setItem('feed1', feedUrl);
+          //alert("Feed successfully saved.");
+          loadFeed("srf");
+        }
+        else if(mode == "setup"){
+          localStorage.setItem('feed1', document.getElementById('firstRssFeed').value);
+        }
+
+        var newFeed = document.createElement('div');
+        //newFeed.id = "feedUrlId" + feedCounter;
+        newFeed.classList = "all-feed-items";
+
+        var newFeedName = document.createElement('p');
+        newFeedName.textContent = localStorage.getItem('feed1');
+
+        var newFeedI = document.createElement('i');
+        newFeedI.classList = "ai-newspaper";
+
+        var newFeedBtn = document.createElement('button');
+        //newFeedBtn.id = "feedButtonID" + feedCounter;
+        var newFeedI2 = document.createElement('i');
+        newFeedI2.classList = "ai-cross";
+        newFeedBtn.appendChild(newFeedI2);
+
+        newFeed.appendChild(newFeedI);
+        newFeed.appendChild(newFeedName);
+        document.getElementById("all-feeds").appendChild(newFeed);
+
+      }
+
+      function updateNumberOfFeedItems(){
+        localStorage.setItem('NumberOfFeedItems', parseInt(document.getElementById('maxNewsPerSite').value));
       }
 
       function showSection(sectionName){
