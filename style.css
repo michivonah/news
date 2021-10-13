@@ -49,6 +49,16 @@
      margin: auto;
    }
 
+   #greetings{
+     width: calc(100% - 40px);
+     max-width: 650px;
+     height: auto;
+     margin: 20px;
+     border-radius: 12px;
+     color: #f6f6f6;
+     user-select: none;
+   }
+
    .news-object{
      width: calc(100% - 40px);
      max-width: 650px;
@@ -72,7 +82,7 @@
 
    .news-object h1{
      margin: 10px;
-     font-size: 26px;
+     font-size: 22px;
    }
 
    .news-description{
@@ -99,6 +109,10 @@
      background: var(--theme2);
      outline: none;
      float: right;
+   }
+
+   .news-object-i{
+     margin-left: -20px;
    }
 
    .all-feed-items{
@@ -219,7 +233,7 @@
    #footer{
      text-align: center;
      margin: 0;
-     margin-top: 60px;
+     margin-top: 40px;
      margin-bottom: 140px;
    }
 
