@@ -107,7 +107,7 @@
 
       <div id="footer">
         <p>Designed with <i class="ai-heart"></i> for your mobile devices.</p>
-        <p>Version 0.0.4</p>
+        <p>Version 0.0.5</p>
       </div>
 
       <div id="navigation">
@@ -135,19 +135,31 @@
             document.body.style.setProperty('--theme2', '#27ae60');
             document.querySelector('meta[name="apple-mobile-web-app-status-bar-style"]').setAttribute("content", "#181818");
         }
+        // register service worker
+        if('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/service-worker.js');
+        }
+        //
         if(localStorage.getItem('NumberOfFeedItems') == null){
           localStorage.setItem('NumberOfFeedItems', 5);
         }
+        // check if the app was used before
         if(localStorage.getItem('tutorials') != null){
           document.getElementById("tutorials").style.display = 'none';
         }
+        // set the max of news per feed
         document.getElementById('maxNewsPerSite').value = localStorage.getItem('NumberOfFeedItems');
         //document.getElementById("home").style.display = "block";
+        // load the greeting text
         greetings();
+        // load the feed items
         loadFeed("srf");
         newFeedItem("Tutorials", "", "Click here to learn how to use this app.", "https://michivonah.notion.site/Tutorials-N3WS-by-Michi-b0fbb60a9eab4452a83351b3b3b35639");
         //newFeedItem("michivonah.ch", "https://michivonah.ch/images/img2.jpeg", "Hi, my name is Michi von Ah and I'm 16 years old. Click on the picture to read more.", "https://michivonah.ch");
         //newFeedItem("Michi's Escape Room", "https://michivonah.ch/icons/escaperoom-flyer.png", "As a final project for school, I programmed an Escape Room game. ", "https://escape.michivonah.ch");
+
+        // initialize the animate on scroll libary, thx to michalsnik.github.io/aos
+        AOS.init();
       });
 
       function greetings(){
@@ -240,6 +252,7 @@
         var newEntry = document.createElement('div');
         newEntry.id = "feedID" + feedCounter;
         newEntry.classList = "news-object";
+        newEntry.setAttribute('data-aos', 'fade-left');
 
         var newTitle = document.createElement('h1');
         newTitle.textContent = title;
@@ -258,7 +271,12 @@
         var newBtn = document.createElement('button');
         newBtn.id = "feedButtonID" + feedCounter;
         var newI = document.createElement('i');
-        newI.classList = "ai-heart";
+        if(/iPhone|iPad/i.test(navigator.userAgent)){
+          newI.classList = "ai-heart news-object-i";
+        }
+        else{
+          newI.classList = "ai-heart";
+        }
         newBtn.appendChild(newI);
         newBtn.addEventListener("click", function(){
           readLater();
@@ -279,18 +297,28 @@
       }
 
       function readLater(){
-        console.log("The read later function is coming soon.");
+        alert("Hey " + localStorage.getItem('name') + " the read later function is coming soon.");
       }
 
       function addNewFeed(mode){
         if(mode == null){
           var feedUrl = prompt("RSS Feed:", "");
-          localStorage.setItem('feed1', feedUrl);
+          if(feedUrl.toLowerCase().includes('https://')){
+            localStorage.setItem('feed1', feedUrl);
+          }
+          else{
+            alert("Hey " + localStorage.getItem('name') + " your RSS Feed URL is invalid.");
+          }
           //alert("Feed successfully saved.");
           loadFeed("srf");
         }
         else if(mode == "setup"){
-          localStorage.setItem('feed1', document.getElementById('firstRssFeed').value);
+          if(document.getElementById('firstRssFeed').value.toLowerCase().includes('https://')){
+            localStorage.setItem('feed1', document.getElementById('firstRssFeed').value);
+          }
+          else{
+            alert("Hey " + localStorage.getItem('name') + " your RSS Feed URL is invalid.");
+          }
         }
 
         var newFeed = document.createElement('div');
