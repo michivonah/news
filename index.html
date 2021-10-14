@@ -153,13 +153,14 @@
         // load the greeting text
         greetings();
         // load the feed items
+        addNewFeed("loadFromStorage");
         loadFeed("srf");
         newFeedItem("Tutorials", "", "Click here to learn how to use this app.", "https://michivonah.notion.site/Tutorials-N3WS-by-Michi-b0fbb60a9eab4452a83351b3b3b35639");
         //newFeedItem("michivonah.ch", "https://michivonah.ch/images/img2.jpeg", "Hi, my name is Michi von Ah and I'm 16 years old. Click on the picture to read more.", "https://michivonah.ch");
         //newFeedItem("Michi's Escape Room", "https://michivonah.ch/icons/escaperoom-flyer.png", "As a final project for school, I programmed an Escape Room game. ", "https://escape.michivonah.ch");
 
         // initialize the animate on scroll libary, thx to michalsnik.github.io/aos
-        AOS.init();
+        //AOS.init();
       });
 
       function greetings(){
@@ -252,7 +253,7 @@
         var newEntry = document.createElement('div');
         newEntry.id = "feedID" + feedCounter;
         newEntry.classList = "news-object";
-        newEntry.setAttribute('data-aos', 'fade-left');
+        //newEntry.setAttribute('data-aos', 'fade-left');
 
         var newTitle = document.createElement('h1');
         newTitle.textContent = title;
@@ -318,6 +319,11 @@
           }
           else{
             alert("Hey " + localStorage.getItem('name') + " your RSS Feed URL is invalid.");
+          }
+        }
+        else if(mode == "loadFromStorage"){
+          if(localStorage.getItem('firstRssFeed') != null){
+            console.log("Try to load your feed. (" + localStorage.getItem('firstRssFeed') + ")");
           }
         }
 
