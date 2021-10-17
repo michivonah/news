@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+        <meta charset="UTF-8">
         <title>N3WS by Michi</title>
         <meta name="mobile-web-app-title" content="N3WS">
         <meta name="apple-mobile-web-app-title" content="N3WS">
@@ -16,12 +17,12 @@
         <script src="https://unpkg.com/akar-icons-fonts"></script>
         <link rel="stylesheet" type="text/css" href="style.css"/>
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/aos@2.3.1/dist/aos.css"/>
-        <meta charset="UTF-8">
         <meta name="description" content="N3WS">
         <meta name="keywords" content="News">
         <meta name="author" content="Michi von Ah">
         <meta name="robots" content="index">
 
+        <meta http-equiv="cache-control" content="private">
         <meta http-equiv="expires" content="43200">
         <meta name="theme-color" content="#2ecc71">
         <meta name="apple-mobile-web-app-status-bar-style" content="#2ecc71">
@@ -53,6 +54,10 @@
         </div>
         <div id="settings">
           <h3>Settings</h3>
+          <div id="your-profile">
+            <i class="ai-person"></i>
+            <p>You</p>
+          </div>
           <div id="all-feeds">
             <p>Your Feeds</p>
           </div>
@@ -75,7 +80,7 @@
 
       <div id="tutorials">
         <div id="tutorialScreen1" class="tutorialscreen">
-          <img src="icons/logo-green-transparent-1080.png">
+          <img src="icons/logo-green-transparent-1080.png" alt="Logo">
           <h1 style="margin-bottom: 5px;">N3WS</h1>
           <p style="margin-top: 0; text-align: center;">by Michi</p>
           <p>This is a free news app. you can connect it to your own rss feeds and easily get an overview of the articles from your favorite portals.</p>
@@ -107,7 +112,7 @@
 
       <div id="footer">
         <p>Designed with <i class="ai-heart"></i> for your mobile devices.</p>
-        <p>Version 0.0.5</p>
+        <p>Version 0.0.6</p>
       </div>
 
       <div id="navigation">
@@ -152,10 +157,11 @@
         //document.getElementById("home").style.display = "block";
         // load the greeting text
         greetings();
+        //createJSON("type");
         // load the feed items
         addNewFeed("loadFromStorage");
         loadFeed("srf");
-        newFeedItem("Tutorials", "", "Click here to learn how to use this app.", "https://michivonah.notion.site/Tutorials-N3WS-by-Michi-b0fbb60a9eab4452a83351b3b3b35639");
+        newFeedItem("Tutorials", "", "Click here to learn how to use this app.", "https://michivonah.notion.site/N3WS-by-Michi-b0fbb60a9eab4452a83351b3b3b35639");
         //newFeedItem("michivonah.ch", "https://michivonah.ch/images/img2.jpeg", "Hi, my name is Michi von Ah and I'm 16 years old. Click on the picture to read more.", "https://michivonah.ch");
         //newFeedItem("Michi's Escape Room", "https://michivonah.ch/icons/escaperoom-flyer.png", "As a final project for school, I programmed an Escape Room game. ", "https://escape.michivonah.ch");
 
@@ -191,7 +197,7 @@
       function nextWelcomePage(currentPageName, nextPageName){
         // exit = end
         if(nextPageName == "exit"){
-          localStorage.setItem('tutorials', "version0_0_4");
+          localStorage.setItem('tutorials', "version0_0_6");
           // yourNameField
           localStorage.setItem('name', document.getElementById("yourNameField").value);
           greetings();
@@ -207,6 +213,15 @@
       }
 
       function loadFeed(rssType){
+        // check if the app is offline
+        if(navigator.onLine == true){
+          console.log("The user is online.");
+        }
+        else{
+          console.log("The user is offline.");
+          alert("Hi " + localStorage.getItem('name') + ", I think your internet connection is lost. Can you check it?");
+        }
+        //
         document.getElementById("feed").innerHTML = '';
         if(localStorage.getItem('feed1') != null){
           var feedUrl = localStorage.getItem('feed1');
@@ -299,6 +314,7 @@
 
       function readLater(){
         alert("Hey " + localStorage.getItem('name') + " the read later function is coming soon.");
+        window.event.stopPropagation();
       }
 
       function addNewFeed(mode){
@@ -359,6 +375,21 @@
         document.getElementById("read-later").style.display = "none";
         document.getElementById("settings").style.display = "none";
         section.style.display = "block";
+      }
+
+      function createJSON(type){
+        var storage = new Object();
+        storage.name = localStorage.getItem('name');
+        storage.tutorials = localStorage.getItem('NumberOfFeedItems');
+        storage.NumberOfFeedItems = localStorage.getItem('NumberOfFeedItems');
+        storage.NumberOfFeeds = 1;
+        storage.feed1 = localStorage.getItem('feed1');
+        //storage.feeds = [];
+        var storageJSON = JSON.stringify(storage);
+        localStorage.setItem('storage', JSON.stringify(storage));
+        console.log(storage);
+        console.log(storageJSON);
+        console.log(localStorage.getItem('storage').name);
       }
       </script>
 </body>
