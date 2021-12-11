@@ -13,6 +13,47 @@
      --theme2: #27ae60;
    }
 
+   #loadingScreen{
+     width: 100%;
+     height: 100vh;
+     background: var(--theme);
+     color: #fff;
+     z-index: 1010;
+     position: fixed;
+     top: 0;
+     left: 0;
+     display: block;
+     transition: all 300ms linear;
+   }
+
+   #loader{
+     width: 30vw;
+     height: 100vh;
+     background: #fff;
+     transition: all 300ms linear;
+     animation: loadingAnimation 2.5s infinite;
+   }
+
+   @keyframes loadingAnimation{
+     0%, 100%{
+       margin-left: 0vw;
+       width: 20vw;
+     }
+     50%{
+       margin-left: 100vw;
+       width: 60vw;
+     }
+   }
+
+   @keyframes loadFadeOut{
+     0%{
+       opacity: 1;
+     }
+     100%{
+       opacity: 0;
+     }
+   }
+
    #content{
      width: 100%;
      max-width: 1100px;
@@ -196,6 +237,73 @@
      border-radius: 12px;
      outline: none;
      text-align: center;
+   }
+
+   #otherSettings{
+     text-align: left;
+     padding-left: 20px;
+     padding-right: 20px;
+   }
+
+   .switch {
+     position: relative;
+     display: inline-block;
+     width: 60px;
+     height: 34px;
+     user-select: none;
+     margin-top: 10px;
+   }
+
+   .switch input {
+     opacity: 0;
+     width: 0;
+     height: 0;
+   }
+
+   .switchSlider {
+     position: absolute;
+     cursor: pointer;
+     top: 0;
+     left: 0;
+     right: 0;
+     bottom: 0;
+     background: #ccc;
+     transition: .4s;
+     border-radius: 34px;
+     display: inline-block;
+   }
+
+   .switchSlider:before {
+     position: absolute;
+     content: "";
+     height: 26px;
+     width: 26px;
+     left: 4px;
+     bottom: 4px;
+     background: #fff;
+     transition: .4s;
+     border-radius: 50%;
+   }
+
+   .switch input:checked + .switchSlider {
+     background-color: var(--theme);
+   }
+
+   .switch input:checked + .switchSlider:before {
+     transform: translateX(26px);
+     -webkit-transform: translateX(26px);
+     -ms-transform: translateX(26px);
+   }
+
+   .switchText{
+     display: inline-block;
+     white-space: nowrap;
+     margin: 0;
+     margin-left: 80px;
+     position: relative;
+     top: -15px;
+     text-align: center;
+     user-select: none;
    }
 
    #your-profile{
