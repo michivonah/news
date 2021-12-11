@@ -3,5 +3,8 @@
 ### Its a Beta!
 
 ### Coming Features
-- add your own rss feeds
-- read later
+- [x] add your own rss feeds
+- [x] personalized with name
+- [ ] read later function
+- [ ] in app news reader
+- [ ] sync your setting with other devices
