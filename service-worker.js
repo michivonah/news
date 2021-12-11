@@ -1,8 +1,9 @@
-const workerCache = "news-michivonah-ch-v1"
+const workerCache = "news-michivonah-ch-v2"
 const assets = [
   "/",
   "/index.html",
   "/style.css",
+  "/script.css",
   "/manifest.json",
   "/icons/logo-dark-1080.png",
   "/icons/logo-dark-720.png",
